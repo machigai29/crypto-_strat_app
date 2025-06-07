@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crypto Strategy Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body data-theme="dark">
+  <div class="container">
+    <h2 class="mb-4">📊 Crypto Signal Dashboard</h2>
+    <div class="card">
+      <label for="coin">Select Coin:</label>
+      <select class="form-select" id="coin">
+        <option value="bitcoin">Bitcoin (BTC)</option>
+        <option value="ethereum">Ethereum (ETH)</option>
+        <option value="sei-network">SEI</option>
+        <option value="sui">SUI</option>
+        <option value="wall-street-memes">WAL</option>
+        <option value="plume-network">Plume</option>
+      </select>
+    </div>
+    <div class="card mt-3">
+      <button onclick="getSignal()" class="btn btn-primary">Get Signal</button>
+      <button onclick="openChart()" class="btn btn-secondary">Open Chart</button>
+    </div>
+    <div class="card mt-3">
+      <pre id="output">Select a coin and get signal...</pre>
+    </div>
+  </div>
+  <script>
+    async function getSignal() {
+      const coin = document.getElementById("coin").value;
+      const res = await fetch(`/signal?coin=${coin}`);
+      const data = await res.json();
+      document.getElementById("output").innerText =
+        `📈 Signal for ${coin.toUpperCase()}\nEntry: $${data.entry_price}\nTP: $${data.take_profit}\nSL: $${data.stop_loss}\nAction: ${data.signal}`;
+    }
+    function openChart() {
+      const coin = document.getElementById("coin").value;
+      window.open(`chart.html?coin=${coin}`, "_blank");
+    }
+  </script>
+</body>
+</html>
